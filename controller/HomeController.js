@@ -1,7 +1,7 @@
 let User = require('../model/user');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const dd = require('dump-die');
+const dd = require('dump-die');  
 
 exports.renderHomePage = (req, res) =>{
     res.render('home');
@@ -20,9 +20,17 @@ exports.getUserList = (req, res) => {
       };
   }
 
-  let sortby = req.query.sortby || 'firstname'; // page number
+  var sess = req.session;
+  let sortby= '';
+  if(typeof req.body !="undefined" && req.body.sortby != null){
+    sortby = req.body.sortby;
+    sess.sortby = sortby;  
+  }else if( typeof sess !="undefined" && sess.sortby != null ){
+     sortby = sess.sortby;
+  }else{
+    sortby = 'firstname'
+  }
 
-console.log(sortby);
   User.findAndCountAll().then((data) => {
       let limit = 2; // number of records per page
       let offset = 0;
@@ -37,7 +45,7 @@ console.log(sortby);
           order:[[sortby, 'ASC']]
       }).then(function(result) {
           res.render('user-list', {
-              title: 'Aexo Users',
+              title: 'Antarctica Users',
               users: result,
               'current': page,
               'pages': pages,

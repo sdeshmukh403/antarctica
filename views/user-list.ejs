@@ -27,19 +27,19 @@
             <button style="margin-top:25px" type="submit" class="btn btn-primary" >Search</button>
         </div>
       </form>
-      <form class="forms-sample col-4 row"  action="/user-list">
+      <form class="forms-sample col-4 row"  method="post" action="/user-list">
         <div class="form-group col-8" >
           <label>Sort by</label>
           <select name="sortby" class="form-control" style="border:1px solid gray; height: 35px" >
-            <option value="firstname" >First Name</option>
-            <option value="lastname">Last Name</option>
-            <option value="email">Email</option>
+            <option value="firstname" <%= ( sortby == 'firstname' ? 'selected' : '') %> >First Name</option>
+            <option value="lastname" <%= ( sortby == 'lastname' ? 'selected' : '') %>>Last Name</option>
+            <option value="email" <%= ( sortby == 'email' ? 'selected' : '') %>>Email</option>
             <option value="emp_id" <%= ( sortby == 'emp_id' ? 'selected' : '') %>>Employee id</option>
-            <option value="org_name">Organization Name</option>
+            <option value="org_name" <%= ( sortby == 'org_name' ? 'selected' : '') %>>Organization Name</option>
           </select>                    
         </div>   
         <div class="form-group col-4">            
-            <button style="margin-top:25px" type="submit" class="btn btn-primary" >Sort</button>
+            <button style="margin-top:25px" type="submit" class="btn btn-primary sort" >Sort</button>
         </div>
       </form>
     </div>
@@ -85,8 +85,7 @@
   </div>
  
   </body>
-
-  <div class="alert" role="alert" id="result"></div>
+<script> $('#sortby').val()</script>
   <% if (pages > 0) { %>
     <ul class="pagination text-center">
         <% if (current == 1) { %>

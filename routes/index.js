@@ -19,6 +19,6 @@ router.post('/signup', authController.postSignup);
 
 //home
 router.get('/home', homeController.renderHomePage);
-router.get('/user-list/:page_no?', homeController.getUserList );
+router.all('/user-list/:page_no?', homeController.getUserList );
 
 module.exports = router;
