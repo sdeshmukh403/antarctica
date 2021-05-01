@@ -1,0 +1,121 @@
+<% include ../partials/nav.ejs %>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+  <div class="containers">
+    <div class="row">
+      <div class="col-10">
+        <h3>User List</h3>
+      </div>
+    </div>
+
+    <div class="col-12 row" style="margin-left:20px">
+      <form class="forms-sample col-8 row"  action="/user-list">
+        <div class="form-group col-4" >
+          <label>Search by</label>
+          <select name="columnName" class="form-control" style="border:1px solid gray; height: 35px" >
+            <option value="firstname">First Name</option>
+            <option value="lastname">Last Name</option>
+            <option value="emp_id">Employee Id</option>
+          </select>                    
+        </div>
+        <div class="form-group col-6">
+        <label>Inputs</label>
+        <input type="text" class="form-control" style="border:1px solid gray" id="search" name="search" value="">
+        </div>    
+        <div class="form-group col-2">            
+            <button style="margin-top:25px" type="submit" class="btn btn-primary" >Search</button>
+        </div>
+      </form>
+      <form class="forms-sample col-4 row"  action="/user-list">
+        <div class="form-group col-8" >
+          <label>Sort by</label>
+          <select name="sortby" class="form-control" style="border:1px solid gray; height: 35px" >
+            <option value="firstname" >First Name</option>
+            <option value="lastname">Last Name</option>
+            <option value="email">Email</option>
+            <option value="emp_id" <%= ( sortby == 'emp_id' ? 'selected' : '') %>>Employee id</option>
+            <option value="org_name">Organization Name</option>
+          </select>                    
+        </div>   
+        <div class="form-group col-4">            
+            <button style="margin-top:25px" type="submit" class="btn btn-primary" >Sort</button>
+        </div>
+      </form>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Email</th>
+          <th scope="col">Organazation Name</th>
+          <th scope="col">Employee Id</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% if (typeof users !="undefined" && users != null) { %>
+          <% for(let user of users) { %>
+            <tr>
+              <th scope="row">
+                <%= user.id %>
+              </th>
+              <td>
+                <%= user.firstname %>
+              </td>
+              <td>
+                <%= user.lastname %>
+              </td>
+              <td>
+                <%= user.email %>
+              </td>
+              <td>
+                <%= user.org_name %>
+              </td>
+              <td>
+                <%= user.emp_id %>
+              </td>
+            </tr>
+            <% } } %>
+      </tbody>
+    </table>
+  </div>
+ 
+  </body>
+
+  <div class="alert" role="alert" id="result"></div>
+  <% if (pages > 0) { %>
+    <ul class="pagination text-center">
+        <% if (current == 1) { %>
+            <li class="disabled"><a>First</a></li>
+        <% } else { %>
+            <li><a href="/user-list/1">First</a></li>
+        <% } %>
+        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+        <% if (i !== 1) { %>
+            <li class="disabled"><a>...</a></li>
+        <% } %>
+        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+            <% if (i == current) { %>
+                <li class="active"><a><%= i %></a></li>
+            <% } else { %>
+                <li><a href="/user-list/<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+                <li class="disabled"><a>...</a></li>
+            <% } %>
+        <% } %>
+        <% if (current == pages) { %>
+            <li class="disabled"><a>Last</a></li>
+        <% } else { %>
+            <li><a href="/user-list/<%= pages %>">Last</a></li>
+        <% } %>
+    </ul>
+<% } %>
+
+  </html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
